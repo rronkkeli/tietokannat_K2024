@@ -1,0 +1,35 @@
+a) Minkä nimisiä osastoja (Departments) Employees-tietokannassa on ?
+
+    - select dept_name from departments;
+    - Marketing, Finance, Human Resources, Production, Development, Quality Management, Sales, Research, Customer Service
+
+b) Tulosta, (yhden kerran kukin) mitä nimikkeitä (title) tietokannassa on.
+
+    - select distinct title from titles;
+
+c) Mikä on suurin ja pienin palkka (salary) ? VIHJE: MIN, MAX
+
+    - select min(salary) from salaries;
+    - Pienin on 38623
+
+    - select max(salary) from salaries;
+    - Suurin on 158220
+
+d) Mikä on keskimääräinen palkka ? VIHJE: AVG
+
+    - select avg(salary) from salaries;
+    - 63810.7448
+
+e) Tulosta kaikki työntekijät, joiden sukunimi on Facello.
+
+    - select first_name, last_name from employees where last_name = "Facello" order by first_name;
+
+f) Kuinka moni työntekijä on syntynyt 1950-luvulla ?
+
+    - select count(*) from employees where birth_date > "1949-12-31" and birth_date < "1960-01-01";
+    - 182886 työntekijää
+
+g) Montako miestä ja montako naista työntekijöissä on ?
+
+    - select gender, count(*) from employees group by gender;
+    - Naisia 120051 ja miehiä 179973
