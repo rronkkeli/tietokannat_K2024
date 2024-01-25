@@ -1,0 +1,97 @@
+Alustus:
+    mysql> use employees;
+
+a) Tulosta kymmenen aakkosjärjestyksessä ensimmäisen työntekijän tiedot sukunimen mukaan lajiteltuna. Vihje: LIMIT rajoittaa tulostettavien tietojen määrän.
+    mysql> select * from employees order by last_name limit 10;
+
+b) Sama kuten edellä, mutta sukunimen JA etunimen mukaan lajiteltuna.
+    mysql> select * from employees order by first_name asc, last_name asc limit 10;
+
+c) Tulosta viiden viimeksi palkatun työntekijän tiedot.
+    mysql> select * from employees order by hire_date desc limit 5;
+
+Seuraavissa tehtävissä tarvitaan tietoja useammasta kuin yhdestä taulusta (JOIN).
+
+d) Kenellä on suurin palkka ? Tulosta etunimi, sukunimi ja palkka.
+    mysql> select first_name, last_name, salary from employees join salaries on employees.emp_no = salaries.emp_no where salary = (select max(salary) from salaries);
+    +------------+-----------+--------+
+    | first_name | last_name | salary |
+    +------------+-----------+--------+
+    | Tokuyasu   | Pesch     | 158220 |
+    +------------+-----------+--------+
+
+e) Kenellä on pienin palkka ? Tulosta etunimi, sukunimi ja palkka.
+    mysql> select first_name, last_name, salary from employees join salaries on employees.emp_no = salaries.emp_no where salary = (select min(salary) from salaries);
+    +------------+-----------+--------+
+    | first_name | last_name | salary |
+    +------------+-----------+--------+
+    | Olivera    | Baek      |  38623 |
+    +------------+-----------+--------+
+
+f) Tulosta työntekijät (etunimi, sukunimi, palkka), jotka ansaitsevat yli 150000.
+    mysql> select first_name, last_name, salary from employees join salaries on employees.emp_no = salaries.emp_no where salary > 150000;
+
+g) Kuinka monta työntekijää työskentelee myynnissä (Sales) ? Entä markkinoinnissa (Marketing) ?
+    Sales:
+        mysql> select count(emp_no) as 'Sales employees' from dept_emp join departments on dept_emp.dept_no = departments.dept_no where departments.dept_name = "Sales";
+        +-----------------+
+        | Sales employees |
+        +-----------------+
+        |           52245 |
+        +-----------------+
+
+    Marketing:
+        mysql> select count(emp_no) as 'Marketing employees' from dept_emp join departments on dept_emp.dept_no = departments.dept_no where departments.dept_name = "Marketing";
+        +---------------------+
+        | Marketing employees |
+        +---------------------+
+        |               20211 |
+        +---------------------+
+
+h) Tulosta kaikkien osastonjohtajien (Department Managers) etunimi, sukunimi ja osasto, jolla työskentelee.
+    mysql> select first_name, last_name, dept_name from employees join dept_manager on employees.emp_no = dept_manager.emp_no join departments on dept_manager.dept_no = departments.dept_no;
+    +-------------+--------------+--------------------+
+    | first_name  | last_name    | dept_name          |
+    +-------------+--------------+--------------------+
+    | Tonny       | Butterworth  | Customer Service   |
+    | Marjo       | Giarratana   | Customer Service   |
+    | Xiaobin     | Spinelli     | Customer Service   |
+    | Yuchang     | Weedman      | Customer Service   |
+    | DeForest    | Hagimont     | Development        |
+    | Leon        | DasSarma     | Development        |
+    | Ebru        | Alpin        | Finance            |
+    | Isamu       | Legleitner   | Finance            |
+    | Shirish     | Ossenbruggen | Human Resources    |
+    | Karsten     | Sigstam      | Human Resources    |
+    | Margareta   | Markovitch   | Marketing          |
+    | Vishwani    | Minakawa     | Marketing          |
+    | Krassimir   | Wegerle      | Production         |
+    | Rosine      | Cools        | Production         |
+    | Shem        | Kieras       | Production         |
+    | Oscar       | Ghazalie     | Production         |
+    | Peternela   | Onuegbe      | Quality Management |
+    | Rutger      | Hofmeyr      | Quality Management |
+    | Sanjoy      | Quadeer      | Quality Management |
+    | Dung        | Pesch        | Quality Management |
+    | Arie        | Staelin      | Research           |
+    | Hilary      | Kambil       | Research           |
+    | Przemyslawa | Kaelbling    | Sales              |
+    | Hauke       | Zhang        | Sales              |
+    +-------------+--------------+--------------------+
+
+i) Mikä on myynnissä työskentelevien keskipalkka ? Entä markkinoinnissa ?
+    Sales:
+        mysql> select avg(salary) from dept_emp join departments on dept_emp.dept_no = departments.dept_no join salaries on dept_emp.emp_no = salaries.emp_no where dept_name = "Sales";
+        +-------------+
+        | avg(salary) |
+        +-------------+
+        |  80667.6058 |
+        +-------------+
+
+    Marketing:
+        mysql> select avg(salary) from dept_emp join departments on dept_emp.dept_no = departments.dept_no join salaries on dept_emp.emp_no = salaries.emp_no where dept_name = "Marketing";
+        +-------------+
+        | avg(salary) |
+        +-------------+
+        |  71913.2000 |
+        +-------------+
