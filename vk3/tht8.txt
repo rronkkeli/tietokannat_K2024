@@ -1,0 +1,56 @@
+a) Tulosta DVD-elokuvien kielet (language) aakkosjärjestyksessä
+    mysql> select name from language order by name asc;
+    +----------+
+    | name     |
+    +----------+
+    | English  |
+    | French   |
+    | German   |
+    | Italian  |
+    | Japanese |
+    | Mandarin |
+    +----------+
+    
+b) Tulosta kaikkien niiden näyttelijöiden elokuvat, joiden sukunimi on Temple.
+    mysql> select title from actor join film_actor on actor.actor_id = film_actor.actor_id join film on film_actor.film_id = film.film_id where last_name = "Temple";
+
+    Tuloste liian pitkä tähän.
+
+c) Tulosta elokuvassa "Ghost Groundhog" näytelleet näyttelijät.
+    mysql> select actors from film_list where title="Ghost Groundhog";
+    +---------------------------------------------------------------------+
+    | actors                                                              |
+    +---------------------------------------------------------------------+
+    | DAN HARRIS, KENNETH TORN, KEVIN GARLAND, RUSSELL TEMPLE, RENEE BALL |
+    +---------------------------------------------------------------------+
+    1 row in set, 1 warning (1.37 sec)
+
+    Tai
+    mysql> select first_name, last_name from film join film_actor on film.film_id = film_actor.film_id join actor on film_actor.actor_id = actor.actor_id where title = "Ghost Groundhog";
+    +------------+-----------+
+    | first_name | last_name |
+    +------------+-----------+
+    | DAN        | HARRIS    |
+    | KENNETH    | TORN      |
+    | KEVIN      | GARLAND   |
+    | RUSSELL    | TEMPLE    |
+    | RENEE      | BALL      |
+    +------------+-----------+
+    5 rows in set (0.06 sec)
+
+    Indeksien ja avainten avulla hakeminen on huomattavasti nopeampaa.
+
+d) Montako kauhuelokuvaa ("Horror") tietokannassa on ?
+    mysql> select count(film_id) from category join film_category on category.category_id = film_category.category_id where name="Horror";
+    +----------------+
+    | count(film_id) |
+    +----------------+
+    |             56 |
+    +----------------+
+
+    56 kappaletta.
+
+e) Tulosta kaikki kauhuelokuvat.
+    mysql> select title as "Horror films" from category join film_category on category.category_id = film_category.category_id join film on film_category.film_id = film.film_id where name="Horror";
+    
+    Tuloste liian pitkä tähän.
