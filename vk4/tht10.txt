@@ -1,0 +1,52 @@
+1) Tulosta kaikki opiskelijat, joilla on tietokannassa hylätty arvosana
+
+    mysql> select Etunimi, Sukunimi, Arvosana, Nimi from arviointi join opiskelija on arviointi.idOpiskelija = opiskelija.idOpiskelija join opintojakso on arviointi.idOpintojakso = opintojakso.idOpintojakso where Arvosana = 0;
+    +---------+-------------+----------+------------+
+    | Etunimi | Sukunimi    | Arvosana | Nimi       |
+    +---------+-------------+----------+------------+
+    | Pekka   | Laiskiainen |        0 | Fysiikka 3 |
+    +---------+-------------+----------+------------+
+    1 row in set (0.00 sec)
+
+2) Tulosta kaikki Fysiikka 3-kurssin hyväksytysti suorittaneet
+
+    mysql> select Etunimi, Sukunimi, Arvosana, Nimi from arviointi join opiskelija on arviointi.idOpiskelija = opiskelija.idOpiskelija join opintojakso on arviointi.idOpintojakso = opintojakso.idOpintojakso where Arvosana > 0 and opintojakso.idOpintojakso = 7;
+    +---------+----------+----------+------------+
+    | Etunimi | Sukunimi | Arvosana | Nimi       |
+    +---------+----------+----------+------------+
+    | Ahto    | Välkky   |        5 | Fysiikka 3 |
+    +---------+----------+----------+------------+
+    1 row in set (0.05 sec)
+
+3) Mille kursseille Elias Kipinä on osallistunut ?
+
+    mysql> select Nimi from arviointi join opiskelija on arviointi.idOpiskelija = opiskelija.idOpiskelija join opintojakso on arviointi.idOpintojakso = opintojakso.idOpintojakso where Etunimi = "Elias" and Sukunimi = "Kipinä";
+    +----------------------+
+    | Nimi                 |
+    +----------------------+
+    | Fysiikka 1           |
+    | Digitaalitekniikka 1 |
+    | Ohjelmointi 1        |
+    | Matematiikka 1       |
+    +----------------------+
+    4 rows in set (0.04 sec)
+
+4) Mikä on Varma Moision opintosuoritusten keskiarvo ?
+
+    mysql> select AVG(Arvosana) from arviointi join opiskelija on opiskelija.idOpiskelija = arviointi.idOpiskelija where Etunimi = "Varma" and Sukunimi = "Moisio";
+    +---------------+
+    | AVG(Arvosana) |
+    +---------------+
+    |        3.2500 |
+    +---------------+
+    1 row in set (0.00 sec)
+
+5) Millä opintojaksoilla ei ole yhtään suoritusmerkintää ? (Vihje: Tarvitset tässä left tai right joinia...)
+
+    mysql> select Nimi from opintojakso left join arviointi on arviointi.idOpintojakso = opintojakso.idOpintojakso where idArviointi is null;
+    +----------------+
+    | Nimi           |
+    +----------------+
+    | Matematiikka 2 |
+    +----------------+
+    1 row in set (0.00 sec)
