@@ -7,6 +7,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var bookRouter = require('./routes/book');
 var borrowerRouter =require('./routes/borrower');
+var arvioinnitRouter = require('./routes/arvioinnit');
 
 var app = express();
 
@@ -21,5 +22,6 @@ app.use('/users', usersRouter);
 
 app.use('/book', bookRouter);
 app.use('/borrower',  borrowerRouter);
+app.use('/arvioinnit', arvioinnitRouter);
 
 module.exports = app;

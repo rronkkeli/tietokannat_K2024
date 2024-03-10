@@ -33,3 +33,12 @@ Taulun tietue päivitetään
 
 Taulun tietue poistetaan
 ![Delete](./images/crud_bw_delete.png)
+
+## Tehtävästä 18 muutama kuva
+
+Loput voi päätellä ihan koodista. Vähän työlästä lähteä joka toiminto kuvaamaan. Kelpaa jos kelpaa, otan riskin.
+![Opsikelija](./images/crud_student_get.png)
+
+![Opintojakso](./images/crud_course_get.png)
+
+![Arviointi](./images/crud_report_get.png)
